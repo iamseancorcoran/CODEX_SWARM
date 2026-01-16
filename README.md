@@ -44,6 +44,20 @@ rm -rf .codex-swarm/.git
 | `Swarm config` | Interactive configuration |
 | `Swarm kill all` | Emergency kill all agents |
 
+### Quick Config
+
+Change individual settings without the full menu:
+
+| Command | Description |
+|---------|-------------|
+| `swarm model <model>` | gpt-5-codex, gpt-5.2-codex, gpt-5.1-codex-mini |
+| `swarm reasoning <level>` | low, medium, high, extra-high |
+| `swarm read` | Set sandbox to read-only |
+| `swarm write` | Set sandbox to workspace-write |
+| `swarm timeout <minutes>` | 1-30 |
+| `swarm logging on\|off` | Toggle logging |
+| `swarm integrator <mode>` | automatic, manual, ask |
+
 ## Quick Example
 
 ```
