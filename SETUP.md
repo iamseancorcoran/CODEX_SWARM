@@ -15,11 +15,11 @@ Parallel Codex agent orchestration tool.
 
 #### Commands
 
-- "Enable swarm" — Enable swarm mode
-- "Disable swarm" — Disable swarm mode
-- "Swarm status" — Show current state and config
-- "Swarm config" — Interactive configuration menu
-- "Swarm kill all" — Emergency kill all running agents
+- `Enable swarm` — Enable swarm mode
+- `Disable swarm` — Disable swarm mode
+- `Swarm status` — Show current state and config
+- `Swarm config` — Interactive configuration menu
+- `Swarm kill all` — Emergency kill all running agents
 
 ---
 
