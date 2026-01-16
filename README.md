@@ -51,7 +51,7 @@ Change individual settings without the full menu:
 | Command | Description |
 |---------|-------------|
 | `swarm model <model>` | gpt-5-codex, gpt-5.2-codex, gpt-5.1-codex-mini |
-| `swarm reasoning <level>` | low, medium, high, extra-high |
+| `swarm reasoning <level>` | low, medium, high, extra-high (controls task shape) |
 | `swarm read` | Set sandbox to read-only |
 | `swarm write` | Set sandbox to workspace-write |
 | `swarm timeout <minutes>` | 1-30 |
@@ -72,13 +72,30 @@ Claude Code splits the work, runs parallel Codex agents, and presents consolidat
 Say `Swarm config` to set:
 
 - Model (gpt-5-codex, gpt-5.2-codex, gpt-5.1-codex-mini)
-- Reasoning level (low, medium, high, extra high)
+- Reasoning level (low, medium, high, extra-high)
 - Sandbox mode (read-only, workspace-write)
 - Max agents (default or manual limit)
 - Timeout per agent
 - Logging on/off
 - Docker safety mode
 - Integrator mode (automatic, manual, ask)
+
+## Reasoning Tiers
+
+Reasoning controls how Claude shapes tasks for Codex:
+
+| Tier | Agents | Files/Task | Context | Planning |
+|------|--------|------------|---------|----------|
+| low | 4 | ≤3 | ≤4 | none |
+| medium | 3 | ≤8 | ≤8 | 5-8 steps |
+| high | 2 | ≤15 | ≤12 | 8-12 steps |
+| extra-high | 1 | ≤25 | ≤20 | 10-15 steps |
+
+**Use for:**
+- **low:** formatting, trivial refactors, test scaffolding, docs
+- **medium:** normal feature work, typical bug fixes, contained refactors
+- **high:** auth/security, concurrency, tricky logic, non-obvious bugs
+- **extra-high:** architecture changes, migrations, core invariants
 
 ## Write Mode
 

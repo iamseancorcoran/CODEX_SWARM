@@ -26,7 +26,7 @@ Parallel Codex agent orchestration tool.
 Change individual settings without the full menu:
 
 - `swarm model <model>` — gpt-5-codex, gpt-5.2-codex, gpt-5.1-codex-mini
-- `swarm reasoning <level>` — low, medium, high, extra-high
+- `swarm reasoning <level>` — low, medium, high, extra-high (controls task shape)
 - `swarm read` — Set sandbox to read-only
 - `swarm write` — Set sandbox to workspace-write
 - `swarm timeout <minutes>` — 1-30
@@ -75,11 +75,11 @@ Interactive menu. Ask each question, wait for response:
    - 2. gpt-5.2-codex (default)
    - 3. gpt-5.1-codex-mini
 
-2. Select reasoning level for [selected model]:
-   - 1. low — Fast responses with lighter reasoning
-   - 2. medium — Balances speed and reasoning depth (default)
-   - 3. high — Greater reasoning depth for complex problems
-   - 4. extra high — Maximum reasoning depth
+2. Select reasoning level (controls task shape):
+   - 1. low — Fast/parallel (4 agents), minimal scope, no planning
+   - 2. medium — Balanced (3 agents), module scope, 5-8 step plans (default)
+   - 3. high — Careful (2 agents), multi-module, 8-12 step plans
+   - 4. extra-high — Maximum (1 agent), wide scope, 10-15 step plans + risk analysis
 
 3. Select sandbox mode:
    - 1. read-only (default)
@@ -194,6 +194,27 @@ WORKER CONTRACT:
 
 #### Principle
 Claude plans. Codex executes. Git enforces truth.
+
+---
+
+#### Reasoning Tiers
+
+Reasoning controls how Claude shapes tasks for Codex (not a CLI flag):
+
+| Tier | Agents | Files/Task | Context | Planning |
+|------|--------|------------|---------|----------|
+| low | 4 | ≤3 | ≤4 | none |
+| medium | 3 | ≤8 | ≤8 | 5-8 steps |
+| high | 2 | ≤15 | ≤12 | 8-12 steps |
+| extra-high | 1 | ≤25 | ≤20 | 10-15 steps |
+
+**Use for:**
+- **low:** formatting, trivial refactors, test scaffolding, docs
+- **medium:** normal feature work, typical bug fixes, contained refactors
+- **high:** auth/security, concurrency, tricky logic, non-obvious bugs
+- **extra-high:** architecture changes, migrations, core invariants, high-risk work
+
+**Claude chooses the tier. The tier shapes the task. Codex executes.**
 
 ---
 

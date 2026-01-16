@@ -553,9 +553,8 @@ spawn_agent() {
   (
     cd "$work_dir" || exit 1
     codex exec "$contract" \
-      --sandbox "$SANDBOX" \
+      -s "$SANDBOX" \
       -m "$MODEL" \
-      -r "$REASONING" \
       2>&1
   ) > "$output_file" &
 
@@ -664,9 +663,8 @@ run_integrator() {
   cd "$PROJECT_DIR" || return 1
 
   codex exec "$integrator_contract" \
-    --sandbox workspace-write \
-    -m "$MODEL" \
-    -r "$REASONING"
+    -s workspace-write \
+    -m "$MODEL"
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -923,6 +921,28 @@ main() {
 
     DURATIONS+=("$((agent_end - agent_start))")
   done
+
+  # Commit agent changes to their branches (write mode only)
+  if [[ "$SANDBOX" == "workspace-write" ]]; then
+    echo "" >&2
+    echo "Committing agent changes..." >&2
+    for ((i=0; i<num_tasks; i++)); do
+      local wt="${AGENT_WORKTREES[$i]}"
+      if [[ -d "$wt" ]]; then
+        (
+          cd "$wt" || continue
+          if [[ -n "$(git status --porcelain 2>/dev/null)" ]]; then
+            git add -A
+            git commit -m "Swarm agent $((i+1)): ${TASKS[$i]}" 2>/dev/null && \
+              echo "- Agent $((i+1)): committed" >&2 || \
+              echo "- Agent $((i+1)): no changes to commit" >&2
+          else
+            echo "- Agent $((i+1)): no changes" >&2
+          fi
+        )
+      fi
+    done
+  fi
 
   echo "" >&2
 
