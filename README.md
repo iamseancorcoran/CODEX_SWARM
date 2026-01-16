@@ -38,16 +38,16 @@ rm -rf .codex-swarm/.git
 
 | Command | Description |
 |---------|-------------|
-| `/swarm` | Enable swarm mode |
-| `/swarmkill` | Disable swarm mode |
-| `/swarmstatus` | Show current state and config |
-| `/swarmconfig` | Interactive configuration |
-| `/swarmkillall` | Emergency kill all agents |
+| "Enable swarm" | Enable swarm mode |
+| "Disable swarm" | Disable swarm mode |
+| "Swarm status" | Show current state and config |
+| "Swarm config" | Interactive configuration |
+| "Swarm kill all" | Emergency kill all agents |
 
 ## Quick Example
 
 ```
-/swarm
+"Enable swarm"
 "Audit this codebase for security issues across auth, billing, and API modules"
 ```
 
@@ -55,7 +55,7 @@ Claude Code splits the work, runs parallel Codex agents, and presents consolidat
 
 ## Configuration
 
-Run `/swarmconfig` to set:
+Say "Swarm config" to set:
 
 - Model (gpt-5-codex, gpt-5.2-codex, gpt-5.1-codex-mini)
 - Reasoning level (low, medium, high, extra high)

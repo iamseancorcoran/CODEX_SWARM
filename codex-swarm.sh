@@ -488,22 +488,33 @@ create_worktrees() {
   done
 }
 
-check_uncommitted_changes() {
+check_git_state() {
   if [[ "$SANDBOX" != "workspace-write" ]]; then
     return 0
   fi
 
   cd "$PROJECT_DIR" || return 0
 
-  if ! git diff --quiet 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
+  # Check for any dirty state (modified, staged, untracked)
+  local git_status
+  git_status=$(git status --porcelain 2>/dev/null)
+
+  if [[ -n "$git_status" ]]; then
     echo "" >&2
-    echo "WARNING: You have uncommitted changes" >&2
-    echo "Agents will work from HEAD (committed state only)" >&2
-    echo "Your uncommitted changes will NOT be visible to agents" >&2
+    echo "WARNING: Your working directory is not clean" >&2
     echo "" >&2
-    read -p "Continue anyway? (yes/no): " confirm
+    echo "Git worktrees branch from HEAD (last commit)." >&2
+    echo "The following changes will NOT be visible to agents:" >&2
+    echo "" >&2
+    git status --short >&2
+    echo "" >&2
+    echo "Options:" >&2
+    echo "  1. Commit your changes first: git add . && git commit -m 'WIP'" >&2
+    echo "  2. Continue anyway (agents work from HEAD)" >&2
+    echo "" >&2
+    read -p "Continue with dirty state? (yes/no): " confirm
     if [[ "$confirm" != "yes" ]]; then
-      echo "Aborted." >&2
+      echo "Aborted. Commit your changes and try again." >&2
       exit 0
     fi
   fi
@@ -544,7 +555,7 @@ spawn_agent() {
     codex exec "$contract" \
       --sandbox "$SANDBOX" \
       -m "$MODEL" \
-      --effort "$REASONING" \
+      -r "$REASONING" \
       2>&1
   ) > "$output_file" &
 
@@ -655,7 +666,7 @@ run_integrator() {
   codex exec "$integrator_contract" \
     --sandbox workspace-write \
     -m "$MODEL" \
-    --effort "$REASONING"
+    -r "$REASONING"
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -824,7 +835,7 @@ main() {
       exit 0
     fi
 
-    check_uncommitted_changes
+    check_git_state
     create_worktrees "$num_tasks"
   fi
 

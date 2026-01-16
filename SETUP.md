@@ -15,27 +15,27 @@ Parallel Codex agent orchestration tool.
 
 #### Commands
 
-- `/swarm` — Enable swarm mode
-- `/swarmkill` — Disable swarm mode
-- `/swarmstatus` — Show current state and config
-- `/swarmconfig` — Interactive configuration menu
-- `/swarmkillall` — Emergency kill all running agents
+- "Enable swarm" — Enable swarm mode
+- "Disable swarm" — Disable swarm mode
+- "Swarm status" — Show current state and config
+- "Swarm config" — Interactive configuration menu
+- "Swarm kill all" — Emergency kill all running agents
 
 ---
 
-#### /swarm
+#### Enable swarm
 Enable swarm mode. Respond:
 ```
 Swarm mode enabled ([model], [reasoning], [sandbox])
 ```
 
-#### /swarmkill
+#### Disable swarm
 Disable swarm mode. Respond:
 ```
 Swarm mode disabled
 ```
 
-#### /swarmstatus
+#### Swarm status
 Show:
 ```
 Swarm Status: ON/OFF
@@ -51,7 +51,7 @@ Config:
   integrator: manual
 ```
 
-#### /swarmconfig
+#### Swarm config
 Interactive menu. Ask each question, wait for response:
 
 1. Select model:
@@ -92,7 +92,7 @@ Interactive menu. Ask each question, wait for response:
 
 Save to .codex-swarm/config.json. Confirm: "Config saved"
 
-#### /swarmkillall
+#### Swarm kill all
 Kill all running Codex agents immediately. For emergencies.
 Run: `pkill -f "codex exec"` and clean up any worktrees with:
 ```bash
