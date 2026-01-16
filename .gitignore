@@ -1,0 +1,7 @@
+CLAUDE.md
+logs/*
+!logs/.gitkeep
+jobs/*
+!jobs/.gitkeep
+.codex-swarm/
+*.lock

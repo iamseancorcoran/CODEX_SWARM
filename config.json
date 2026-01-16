@@ -1,0 +1,41 @@
+{
+  "model": "gpt-5.2-codex",
+  "reasoning": "medium",
+  "sandbox": "read-only",
+  "maxAgents": "default",
+  "timeout": 10,
+  "logging": true,
+  "dockerMode": "safe",
+  "integratorMode": "manual",
+  "protectedPaths": [
+    ".env",
+    ".env.*",
+    "*.pem",
+    "*.key",
+    "*secret*",
+    "*credential*",
+    ".git/",
+    "node_modules/"
+  ],
+  "blockedCommands": [
+    "rm -rf",
+    "sudo",
+    "chmod",
+    "chown",
+    "curl | bash",
+    "wget | bash",
+    "docker system prune",
+    "docker volume prune",
+    "docker volume rm",
+    "docker container prune",
+    "docker rm -f",
+    "docker rmi",
+    "docker image prune",
+    "docker network prune",
+    "docker network rm",
+    "docker-compose down -v",
+    "docker-compose down --rmi",
+    "docker compose down -v",
+    "docker compose down --rmi"
+  ]
+}
